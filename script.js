@@ -14,6 +14,13 @@ fetch(API_URL)
             modal.style.display = "none";
         });
 
+        // モーダル以外をクリックした場合にモーダルを閉じる
+        window.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        });
+
         // カード作成
         data.forEach(item => {
             const card = document.createElement("div");
