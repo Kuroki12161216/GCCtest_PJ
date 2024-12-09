@@ -1,4 +1,4 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbzFn15ZEzsd4OzDdg-Yll4qF6zypdxqokLt269dYjlPmVk3YAcS82teaNqifK3Hybl8/exec"; // GASで作成したAPIのURLを入力
+const API_URL = "https://script.google.com/macros/s/AKfycbzPeBoaX2cMssVfEyeelczNzM0l1BhTO0lVl9RatmxwJIoE-dru5S7uNU0lPYO0TTTT/exec?month=202411&storeName=マグロと炉端成る"; // GASで作成したAPIのURLを入力
 
 // データをフェッチしてカード形式で表示
 fetch(API_URL)

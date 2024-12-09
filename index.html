@@ -67,9 +67,30 @@
             cursor: pointer;
             font-size: 100px;
         }
+        select {
+            margin: 10px 0;
+            padding: 8px;
+            font-size: 16px;
+        }
+        label {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+    <div>
+        <label for="store-select">店舗名:</label>
+        <select id="store-select">
+            <option value="">すべて</option>
+        </select>
+    </div>
+    <div>
+        <label for="month-select">月:</label>
+        <select id="month-select">
+            <option value="">すべて</option>
+        </select>
+    </div>
+</div>
     <h1 style="text-align:center;">スプレッドシートデータ - カード表示</h1>
     <div class="container" id="card-container"></div>
 
@@ -83,5 +104,6 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="Createfilter.js"></script>
 </body>
 </html>
