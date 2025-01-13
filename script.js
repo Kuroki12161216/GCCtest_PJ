@@ -103,15 +103,15 @@ function displayCards(data, container, modal, modalContent) {
         if (hasNextAction) {
             card.addEventListener("click", () => {
                 modalContent.innerHTML = ""; // モーダル内容をリセット
-                for (const key in nextActionData) {
-                    const element = document.createElement("p");
-                    element.innerHTML = `<strong>${key}:</strong> ${nextActionData[key]}`;
-                    modalContent.appendChild(element);
-                }
 
                 for (const key in HypothesisData) {
                     const element = document.createElement("p");
                     element.innerHTML = `<strong>${key}:</strong> ${HypothesisData[key]}`;
+                    modalContent.appendChild(element);
+                }
+                for (const key in nextActionData) {
+                    const element = document.createElement("p");
+                    element.innerHTML = `<strong>${key}:</strong> ${nextActionData[key]}`;
                     modalContent.appendChild(element);
                 }
 
