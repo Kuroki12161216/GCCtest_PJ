@@ -81,12 +81,17 @@ function displayCards(data, container, modal, modalContent) {
         let hasNextAction = false;
         const nextActionData = {};
 
+        let hasHypothesis = false;
+        const HypothesisData = {};
+
         // 各プロパティをカードに追加
         for (const key in item) {
             if (key === "ネクストアクション") {
                 hasNextAction = true;
                 nextActionData[key] = item[key];
-                break; // ネクストアクション以降はカードに含めない
+            } else if  (key === "仮説") {
+                hasHypothesis = true;
+                HypothesisData[key] = item[key];
             } else {
                 const element = document.createElement("p");
                 element.innerHTML = `<strong>${key}:</strong> ${item[key]}`;
@@ -103,6 +108,13 @@ function displayCards(data, container, modal, modalContent) {
                     element.innerHTML = `<strong>${key}:</strong> ${nextActionData[key]}`;
                     modalContent.appendChild(element);
                 }
+
+                for (const key in HypothesisData) {
+                    const element = document.createElement("p");
+                    element.innerHTML = `<strong>${key}:</strong> ${HypothesisData[key]}`;
+                    modalContent.appendChild(element);
+                }
+
                 modal.style.display = "flex";
             });
         }
