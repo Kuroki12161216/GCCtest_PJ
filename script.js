@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.getElementById("modal");
     const modalContent = document.getElementById("modal-content");
     const closeModal = document.getElementById("close-modal");
+    const submitButton = document.getElementById("submit-button");
 
     // セッションストレージからデータを取得
     const storedData = sessionStorage.getItem("storeData");
@@ -63,6 +64,40 @@ document.addEventListener("DOMContentLoaded", () => {
         if (event.target === modal) {
             modal.style.display = "none";
         }
+    });
+    // データ送信
+    submitButton.addEventListener("click", () => {
+        const hypothesis = document.getElementById("hypothesis").value;
+        const nextAction = document.getElementById("next-action").value;
+        const task = document.getElementById("task").value;
+        const deadline = document.getElementById("deadline").value;
+        const responsible = document.getElementById("responsible").value;
+
+        // フォームデータを送信
+        const payload = {
+            仮説: hypothesis,
+            ネクストアクション: nextAction,
+            タスク: task,
+            期限: deadline,
+            責任者: responsible
+        };
+
+        fetch("<GAS_API_URL>", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert("データが送信されました！");
+            modal.style.display = "none";
+        })
+        .catch(error => {
+            console.error("エラーが発生しました:", error);
+            alert("データ送信に失敗しました。");
+        });
     });
 });
 
