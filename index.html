@@ -56,6 +56,7 @@
             border-radius: 8px;
             max-width: 500px;
             width: 90%;
+            position: relative;
         }
         .modal-content h3 {
             margin-top: 0;
@@ -108,7 +109,7 @@
             <option value="">すべて</option>
         </select>
     </div>
-</div>
+
     <h1 style="text-align:center;">スプレッドシートデータ - カード表示</h1>
     <div class="container" id="card-container"></div>
 
@@ -118,6 +119,7 @@
             <span class="close" id="close-modal">&times;</span>
             <h3>ネクストアクション</h3>
             <div id="modal-content"></div>
+
             <h3>仮説・ネクストアクションフォーム</h3>
             <form id="form-hypothesis">
                 <label for="hypothesis">仮説:</label>
@@ -130,7 +132,10 @@
             </form>
 
             <h3>タスク・期限・責任者フォーム</h3>
+            <!-- 店舗名を保持するための hidden フィールド -->
             <form id="form-task">
+                <input type="hidden" id="hidden-store" />
+
                 <label for="task">タスク:</label>
                 <input id="task" type="text" placeholder="タスクを入力">
 
@@ -142,11 +147,12 @@
 
                 <button id="submit-task">送信</button>
             </form>
-            
         </div>
     </div>
 
+    <!-- メインスクリプト -->
     <script src="script.js"></script>
+    <!-- フィルタ生成スクリプト -->
     <script src="Createfilter.js"></script>
 </body>
 </html>
