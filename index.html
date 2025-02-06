@@ -1,158 +1,254 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>スプレッドシートデータ - カード表示</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 16px;
-            padding: 16px;
-        }
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 16px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 300px;
-            background-color: #fff;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .card h3 {
-            margin: 0 0 8px;
-            font-size: 1.2em;
-            color: #333;
-        }
-        .card p {
-            margin: 4px 0;
-            color: #555;
-        }
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-        .modal-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 500px;
-            width: 90%;
-            position: relative;
-        }
-        .modal-content h3 {
-            margin-top: 0;
-        }
-        .close {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-            font-size: 24px;
-        }
-        form {
-            margin-top: 20px;
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BIツール - 店舗診断表 & タスク管理</title>
+  <style>
+    /* Global Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      min-height: 100vh;
+    }
+    /* Sidebar Styles */
+    .sidebar {
+      width: 200px;
+      background-color: #f8f8f8;
+      border-right: 1px solid #ccc;
+      padding: 16px;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar li {
+      margin-bottom: 16px;
+    }
+    .sidebar a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: bold;
+    }
+    .sidebar a.active {
+      color: #0056b3;
+    }
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    /* Filter and Card Styles */
+    .filters {
+      margin-bottom: 16px;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      max-width: 300px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1.2em;
+      color: #333;
+    }
+    .card p {
+      margin: 4px 0;
+      color: #555;
+    }
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-content h3 {
+      margin-top: 0;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 24px;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    /* Tasks List Styles */
+    #tasks-list {
+      margin-top: 16px;
+    }
+    .task-item {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .task-item.overdue {
+      background-color: #ffe6e6;
+    }
+    .task-item.due-today {
+      background-color: #fff0e6;
+    }
+    .task-details {
+      flex: 1;
+      margin-left: 10px;
+    }
+    .task-checkbox {
+      flex-shrink: 0;
+    }
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div>
+  <!-- サイドバー（ナビゲーション） -->
+  <div class="sidebar">
+    <ul>
+      <li><a href="#" id="nav-diagnosis" class="active">店舗診断表</a></li>
+      <li><a href="#" id="nav-tasks">タスク</a></li>
+    </ul>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div class="main-content">
+    <!-- 店舗診断表ビュー -->
+    <div id="diagnosis-view">
+      <div class="filters">
         <label for="store-select">店舗名:</label>
         <select id="store-select">
-            <option value="">すべて</option>
+          <option value="">すべて</option>
         </select>
-    </div>
-    <div>
         <label for="month-select">月:</label>
         <select id="month-select">
-            <option value="">すべて</option>
+          <option value="">すべて</option>
         </select>
+      </div>
+      <h1 style="text-align:center;">スプレッドシートデータ - カード表示</h1>
+      <div class="container" id="card-container"></div>
     </div>
 
-    <h1 style="text-align:center;">スプレッドシートデータ - カード表示</h1>
-    <div class="container" id="card-container"></div>
-
-    <!-- モーダル -->
-    <div class="modal" id="modal">
-        <div class="modal-content">
-            <span class="close" id="close-modal">&times;</span>
-            <h3>ネクストアクション</h3>
-            <div id="modal-content"></div>
-
-            <h3>仮説・ネクストアクションフォーム</h3>
-            <form id="form-hypothesis">
-                <label for="hypothesis">仮説:</label>
-                <textarea id="hypothesis" placeholder="仮説を入力"></textarea>
-
-                <label for="next-action">ネクストアクション:</label>
-                <textarea id="next-action" placeholder="ネクストアクションを入力"></textarea>
-
-                <button id="submit-hypothesis">送信</button>
-            </form>
-
-            <h3>タスク・期限・責任者フォーム</h3>
-            <!-- 店舗名を保持するための hidden フィールド -->
-            <form id="form-task">
-                <input type="hidden" id="hidden-store" />
-
-                <label for="task">タスク:</label>
-                <input id="task" type="text" placeholder="タスクを入力">
-
-                <label for="deadline">期限:</label>
-                <input id="deadline" type="date">
-
-                <label for="responsible">責任者:</label>
-                <input id="responsible" type="text" placeholder="責任者を入力">
-
-                <button id="submit-task">送信</button>
-            </form>
-        </div>
+    <!-- タスク一覧ビュー -->
+    <div id="tasks-view" style="display:none;">
+      <h1>タスク一覧</h1>
+      <button id="add-task-button">タスク追加</button>
+      <div id="tasks-list"></div>
+      <button id="delete-tasks-button">選択されたタスク削除</button>
     </div>
+  </div>
 
-    <!-- メインスクリプト -->
-    <script src="script.js"></script>
-    <!-- フィルタ生成スクリプト -->
-    <script src="Createfilter.js"></script>
+  <!-- 共通モーダル -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <!-- 仮説・ネクストアクション表示部分 -->
+      <h3>ネクストアクション詳細</h3>
+      <div id="modal-content"></div>
+      
+      <!-- 仮説・ネクストアクションフォーム -->
+      <h3>仮説・ネクストアクションフォーム</h3>
+      <form id="form-hypothesis">
+        <label for="hypothesis">仮説:</label>
+        <textarea id="hypothesis" placeholder="仮説を入力"></textarea>
+
+        <label for="next-action">ネクストアクション:</label>
+        <textarea id="next-action" placeholder="ネクストアクションを入力"></textarea>
+
+        <button id="submit-hypothesis">送信</button>
+      </form>
+
+      <!-- タスク・期限・責任者フォーム -->
+      <h3>タスク・期限・責任者フォーム</h3>
+      <!-- 店舗名を保持するための hidden フィールド -->
+      <form id="form-task">
+        <input type="hidden" id="hidden-store" />
+
+        <label for="task">タスク:</label>
+        <input id="task" type="text" placeholder="タスクを入力">
+
+        <label for="deadline">期限:</label>
+        <input id="deadline" type="date">
+
+        <label for="responsible">責任者:</label>
+        <input id="responsible" type="text" placeholder="責任者を入力">
+
+        <button id="submit-task">送信</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- スクリプト -->
+  <script src="Createfilter.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
