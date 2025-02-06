@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         責任者: responsible
       };
   
-      fetch("<GAS_API_URL_FOR_TASK>", {
+      fetch("https://script.google.com/macros/s/AKfycbxBCvjm1EFSr6zQODhRiy4C6C7YJtYnL1P4uG2CCQvpi4ZZ9WSN6xXFYPT80vO2ll2z/exec", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- タスク一覧のロード ---
     function loadTasks() {
       // ※実際はGASのタスク一覧取得APIを利用する
-      fetch("<GAS_API_URL_FOR_TASK_LIST>")
+      fetch("https://script.google.com/macros/s/AKfycbzGi5z1dJYaN82Xi5eO-DCP1fujvbrQjivBmPymm1mf6ZC8Vrxp8aQvwUBThiK0RLq7/exec")
         .then(response => response.json())
         .then(data => {
           tasks = data; // dataはタスクの配列と仮定
